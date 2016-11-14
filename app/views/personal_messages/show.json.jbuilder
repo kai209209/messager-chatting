@@ -1,1 +1,0 @@
-json.partial! "personal_messages/personal_message", personal_message: @personal_message

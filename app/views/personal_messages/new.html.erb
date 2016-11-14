@@ -3,7 +3,7 @@
 <%= form_for @personal_message do |f| %>
   <%= hidden_field_tag 'receiver_id', @receiver.id %>
 
-  <%= f.label :body %>
+  <%= f.label "I am #{current_user.name}" %>
   <%= f.text_area :body %>
 
   <%= f.submit %>
