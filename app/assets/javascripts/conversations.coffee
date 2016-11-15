@@ -20,21 +20,20 @@ jQuery(document).on 'turbolinks:load', ->
       return false
 
   if $("#current-user").size() > 0
-    App.personal_chat = App.cable.subscriptions.create {
-      channel: "NotificationsChannel"
-    },
+    App.personal_chat = App.cable.subscriptions.create  "NotificationsChannel",
 
-    send_message: (message, conversation_id) ->
-      @perform 'send_message', message: message, conversation_id: conversation_id
+      send_message: (message, conversation_id) ->
+        @perform 'send_message', message: message, conversation_id: conversation_id
 
-    connected: ->
+      connected: ->
 
-    disconnected: ->
+      disconnected: ->
 
-    received: (data) ->
-      if messages.size() > 0 && messages.data('conversation-id') is data['conversation_id']
-        messages.append data['message']
-        messages_to_bottom()
-      else
-        $('body').append(data['notification']) if data['notification']
+      received: (data) ->
+        if messages.size() > 0 && messages.data('conversation-id') is data['conversation_id']
+          messages.append data['message']
+          messages_to_bottom()
+        else
+          $.getScript('/conversations') if $('#conversations').size() > 0
+          $('body').append(data['notification']) if data['notification']
 

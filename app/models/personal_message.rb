@@ -4,7 +4,10 @@ class PersonalMessage < ApplicationRecord
 
   validates :body, presence: true
 
-  after_create_commit { NotificationBroadcastJob.perform_later(self) }
+  after_create_commit do 
+    conversation.touch
+    NotificationBroadcastJob.perform_later(self) 
+  end
 
   def receiver
     self.conversation.with(self.user)
